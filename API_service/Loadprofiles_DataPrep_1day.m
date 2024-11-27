@@ -109,17 +109,40 @@ ylim('tight')
 
 disp('done')
 
-%% Safe File
+%% Safe processed Load Files
+
 save_files = false;
 
+% navigate back to main file
+cd ../
+cd ../
+
+
 if save_files
+
+DataFolder = './Datasets/';
+
+% Save the table as a .mat file
+save(append(DataFolder ,'LoadProfiles_1day.mat'), 'LoadProfiles');
+
+% Save the table as a .csv file
+writetable(LoadProfiles, append(DataFolder ,'LoadProfiles_1day.csv'));
+
+disp('Files saved as .mat and .csv')
+
+clear DataFolder
+
+end
+
+%% Safe Figures
+save_figures = false;
+
+if save_figures
     % Stretch Figure
     figwidth = 8; % Width in inches
     figheight = 8; % Height in inches
     set(gcf, 'Units', 'Inches', 'Position', [1, 1, figwidth, figheight]);
 
-    cd ../
-    cd ../
     cd ../
     ResultsFolder = './Results/';
     
@@ -128,7 +151,7 @@ if save_files
     
     disp('Figures saved as PDF and eps')
 
-    clear figwidth figheight
+    clear figwidth figheight ResultsFolder
     
 end
 
