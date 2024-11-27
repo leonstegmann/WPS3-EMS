@@ -79,7 +79,7 @@ title('El Spot Price')
 ylabel('DKK/kWh')
 
 %% Safe File
-save_files false
+save_files = false ;
 
 if save_files
     % Stretch Figure
@@ -94,7 +94,7 @@ if save_files
     saveas(fig_Elspotprice, append(ResultsFolder , 'Elspotprice_Oktober24'),'epsc')
     saveas(fig_Elspotprice, append(ResultsFolder , 'Elspotprice_Oktober24'),'pdf')
     
-    disp('saved in file')
+    disp('Figures saved as PDF and eps')
 
     clear figwidth figheight
 

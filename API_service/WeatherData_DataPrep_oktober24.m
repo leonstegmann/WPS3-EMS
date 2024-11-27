@@ -83,7 +83,7 @@ sgtitle('Weather Station Hvide Sande Oktober 2024')
 disp('done')
 
 %% Safe File
-save_files false
+save_files = false;
 
 if save_files
     % Stretch Figure
@@ -98,7 +98,7 @@ if save_files
     saveas(fig_weather, append(ResultsFolder , 'Weather_HvideSande_Oktober24'),'epsc')
     saveas(fig_weather, append(ResultsFolder , 'Weather_HvideSande_Oktober24'),'pdf')
     
-    disp('saved')
+    disp('Figures saved as PDF and eps')
 
     clear figwidth figheight
     
