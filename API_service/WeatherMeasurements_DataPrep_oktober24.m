@@ -24,8 +24,9 @@ for i = 1:length(files)
     fprintf('Loaded file: %s\n', files(i).name);
 
 end
+WeatherData_table = tables;
 
-clear files
+clear files tables
 
 %% Plot Full Oktober: Solar Wind Temperature humidity
 
@@ -33,9 +34,9 @@ close all
 
 fig_weather = figure;
 subplot(4,1,4)
-x = tables{1,1}.time(:);
+x = WeatherData_table{1,1}.time(:);
 x = datetime(x, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss''Z''', 'TimeZone', 'UTC','Format','yyyy-MM-dd''T''HH');
-y = tables{1,1}.Humidity(:);
+y = WeatherData_table{1,1}.Humidity(:);
 plot(x,y);
 xlabel('Time')
 title('Humidity')
@@ -46,9 +47,9 @@ xlim('tight')
 
 %Solar
 subplot(4,1,1)
-x = tables{1,2}.time(:);
+x = WeatherData_table{1,2}.time(:);
 x = datetime(x, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss''Z''', 'TimeZone', 'UTC','Format','yyyy-MM-dd''T''HH');
-y = tables{1,2}.Solar(:);
+y = WeatherData_table{1,2}.Solar(:);
 plot(x,y);
 title('Solar')
 ylabel('W/m^2')
@@ -57,9 +58,9 @@ xlim('tight')
 
 %Temperature
 subplot(4,1,3)
-x = tables{1,3}.time(:);
+x = WeatherData_table{1,3}.time(:);
 x = datetime(x, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss''Z''', 'TimeZone', 'UTC','Format','yyyy-MM-dd''T''HH');
-y = tables{1,3}.Temperature(:);
+y = WeatherData_table{1,3}.Temperature(:);
 plot(x,y);
 title('Temperature')
 ylabel('°C')
@@ -68,9 +69,9 @@ xlim('tight')
 
 %Wind
 subplot(4,1,2)
-x = tables{1,4}.time(:);
+x = WeatherData_table{1,4}.time(:);
 x = datetime(x, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss''Z''', 'TimeZone', 'UTC','Format','yyyy-MM-dd''T''HH');
-y = tables{1,4}.Wind(:);
+y = WeatherData_table{1,4}.Wind(:);
 plot(x,y);
 title('Wind')
 ylabel('m/s')
