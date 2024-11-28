@@ -7,7 +7,8 @@
 %
 %% Load FIles
 
-cd C:\dev\WPS3-EMS\API_service\Datasets\Load_profiles\
+cd C:\dev\WPS3-EMS\API_service\
+cd Datasets\Load_profiles\
 
 files = dir('*_day.mat'); % Get all .csv files in the current directory
 
@@ -26,6 +27,9 @@ for i = 1:length(files)
     fprintf('Loaded file: %s\n', files(i).name);
 
 end
+
+cd ..
+cd ..
 
 %% Create time array for plotting
 
@@ -109,14 +113,9 @@ ylim('tight')
 
 disp('done')
 
-%% Safe processed Load Files
+%% Safe processed Loadprofile Files
 
-save_files = false;
-
-% navigate back to main file
-cd ../
-cd ../
-
+save_files = true;
 
 if save_files
 
@@ -135,7 +134,7 @@ clear DataFolder
 end
 
 %% Safe Figures
-save_figures = false;
+save_figures = true;
 
 if save_figures
     % Stretch Figure
@@ -143,7 +142,7 @@ if save_figures
     figheight = 8; % Height in inches
     set(gcf, 'Units', 'Inches', 'Position', [1, 1, figwidth, figheight]);
 
-    cd ../
+
     ResultsFolder = './Results/';
     
     saveas(fig_loadprofiles, append(ResultsFolder , 'loadprofiles_1day'),'epsc')

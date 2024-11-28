@@ -1,15 +1,16 @@
 % Read in Data for Testing & Training
 
 % my computer specific
-cd  'C:\dev\WPS3-EMS\' 
-cd .\API_service/Datasets\
+cd  'C:\dev\WPS3-EMS\API_service'
 
 %%
+DataFolder = './Datasets/';
+
 % Define the file path (make sure the path is correct)
 filePath = 'Elspotprice_Energienet_oktober24.csv';
 
 % Read the CSV file into a table
-raw_elspotData = readtable(filePath,'ReadVariableNames', true); % in DKK per MWh
+raw_elspotData = readtable(append(DataFolder, filePath),'ReadVariableNames', true); % in DKK per MWh
 
 % Display the first few rows of the table to verify
 head(raw_elspotData)
@@ -78,8 +79,8 @@ xlim('tight')
 title('El Spot Price')
 ylabel('DKK/kWh')
 
-%% Safe File
-save_files = false ;
+%% Safe Figures
+save_files = true ;
 
 if save_files
     % Stretch Figure
@@ -87,8 +88,7 @@ if save_files
     figheight = 8; % Height in inches
     set(gcf, 'Units', 'Inches', 'Position', [1, 1, figwidth, figheight]);
     
-    cd ../
-    cd ../
+
     ResultsFolder = './Results/';
     
     saveas(fig_Elspotprice, append(ResultsFolder , 'Elspotprice_Oktober24'),'epsc')

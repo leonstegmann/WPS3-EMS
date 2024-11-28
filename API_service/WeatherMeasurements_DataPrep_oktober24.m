@@ -4,9 +4,12 @@
 %
 %% Load FIles
 
-cd C:\dev\WPS3-EMS\API_service\Datasets\
+cd C:\dev\WPS3-EMS\API_service\
+cd Datasets\
 
 files = dir('*DMIOpenData_oktober24.csv'); % Get all .csv files in the current directory
+
+cd ..
 
 % Preallocate cell array to store tables
 tables = cell(1, length(files));
@@ -24,9 +27,22 @@ for i = 1:length(files)
     fprintf('Loaded file: %s\n', files(i).name);
 
 end
-WeatherData_table = tables;
+%%
+WeatherData_table = table();
+% ADD COLUMN Time AND HUMIDITY
+WeatherData_table = tables{1,1};
+% ADD COLUMN  SOLAR
+columnName =tables{1,2}.Properties.VariableNames{2};
+WeatherData_table.(columnName) = tables{1,2}.Solar;
+% ADD COLUMN TEMP
+columnName =tables{1,3}.Properties.VariableNames{2};
+WeatherData_table.(columnName) = tables{1,3}.Temperature;
+% ADD COLUMN WIND
+columnName =tables{1,4}.Properties.VariableNames{2};
+WeatherData_table.(columnName) = tables{1,4}.Wind;
 
 clear files tables
+
 
 %% Plot Full Oktober: Solar Wind Temperature humidity
 
@@ -34,9 +50,9 @@ close all
 
 fig_weather = figure;
 subplot(4,1,4)
-x = WeatherData_table{1,1}.time(:);
+x = WeatherData_table.time(:);
 x = datetime(x, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss''Z''', 'TimeZone', 'UTC','Format','yyyy-MM-dd''T''HH');
-y = WeatherData_table{1,1}.Humidity(:);
+y = WeatherData_table.Humidity(:);
 plot(x,y);
 xlabel('Time')
 title('Humidity')
@@ -47,9 +63,9 @@ xlim('tight')
 
 %Solar
 subplot(4,1,1)
-x = WeatherData_table{1,2}.time(:);
+x = WeatherData_table.time(:);
 x = datetime(x, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss''Z''', 'TimeZone', 'UTC','Format','yyyy-MM-dd''T''HH');
-y = WeatherData_table{1,2}.Solar(:);
+y = WeatherData_table.Solar(:);
 plot(x,y);
 title('Solar')
 ylabel('W/m^2')
@@ -58,9 +74,9 @@ xlim('tight')
 
 %Temperature
 subplot(4,1,3)
-x = WeatherData_table{1,3}.time(:);
+x = WeatherData_table.time(:);
 x = datetime(x, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss''Z''', 'TimeZone', 'UTC','Format','yyyy-MM-dd''T''HH');
-y = WeatherData_table{1,3}.Temperature(:);
+y = WeatherData_table.Temperature(:);
 plot(x,y);
 title('Temperature')
 ylabel('°C')
@@ -69,9 +85,9 @@ xlim('tight')
 
 %Wind
 subplot(4,1,2)
-x = WeatherData_table{1,4}.time(:);
+x = WeatherData_table.time(:);
 x = datetime(x, 'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss''Z''', 'TimeZone', 'UTC','Format','yyyy-MM-dd''T''HH');
-y = WeatherData_table{1,4}.Wind(:);
+y = WeatherData_table.Wind(:);
 plot(x,y);
 title('Wind')
 ylabel('m/s')
@@ -83,8 +99,29 @@ sgtitle('Weather Station Hvide Sande Oktober 2024')
 
 disp('done')
 
-%% Safe File
-save_files = false;
+%% Safe processed Files
+
+save_files = true;
+
+if save_files
+
+DataFolder = './Datasets/';
+
+% Save the table as a .mat file
+save(append(DataFolder ,'WeatherData_okt24.mat'), 'WeatherData_table');
+
+% Save the table as a .csv file
+writetable(WeatherData_table, append(DataFolder ,'WeatherData_okt24.csv'));
+
+disp('Files saved as .mat and .csv')
+
+clear DataFolder
+
+end
+
+
+%% Safe Figures
+save_files = true;
 
 if save_files
     % Stretch Figure
@@ -92,8 +129,6 @@ if save_files
     figheight = 8; % Height in inches
     set(gcf, 'Units', 'Inches', 'Position', [1, 1, figwidth, figheight]);
     
-    cd ../
-    cd ../
     ResultsFolder = './Results/';
     
     saveas(fig_weather, append(ResultsFolder , 'Weather_HvideSande_Oktober24'),'epsc')
