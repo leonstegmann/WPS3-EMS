@@ -6,7 +6,7 @@ import pandas as pd
 folderpath = 'Datasets/'
 
 
-# %% API Request Energienet.dk
+# %% API Request to  Energienet.dk for Electrcity Spot Price
 def write_api_swagger_data_to_csv(data_url, data_filename):
     # Request to API SERVER
     response = requests.get(url=data_url)
@@ -158,6 +158,44 @@ API_request_fromDMIOpenData_using_swagger_writing_to_csv(wind_url, folderpath + 
 API_request_fromDMIOpenData_using_swagger_writing_to_csv(temp_url, folderpath + 'Temperature_DMIOpenData_oktober24.csv')
 API_request_fromDMIOpenData_using_swagger_writing_to_csv(humidity_url, folderpath + 'Humidity_DMIOpenData_oktober24.csv')
 API_request_fromDMIOpenData_using_swagger_writing_to_csv(solar_url, folderpath + 'Solar_DMIOpenData_oktober24.csv')
+
+#%% API Request to  Energienet.dk for Consumption per Industry, Public and Private, Municipality and Hour
+# Municipality :
+# municipality code: 760 (<=Hvide Sande belong to municipality Ringkøbing-Skjern)
+# Related city codes: 655, 659, 667, 669, 681
+
+# Housing category:
+# 120 - Detached single-family house ('Parcel- og rækkehuse')
+# 121 - Attached single-family house ('Parcel- og rækkehuse')
+# 122 - Detached single-family house in low-rise development ('Parcel- og rækkehuse')
+
+
+# Heating category:
+# 1 - District heating/block heating Other ('Andet')
+# 2 - Central heating with one heating unit Other ('Andet')
+# 3 - Solid and liquid fuel stove Other ('Andet')
+# 5 - Heat pump Electric heating or heat pump ('Elvarme eller varmepumpe')
+# 6 - Central heating with two heating units Other ('Andet')
+# 7 - Electric heating Electric heating or heat pump ('Elvarme eller varmepumpe')
+# 8 - Gas radiator Other ('Andet')
+# 9 - No heating installation Other ('Andet')
+# 99 - Mixed Other ('Andet')
+
+# Consumption is in kWh
+
+# Load profile (Power Cosumption) Data Hourly Single-family houses and townhouses Oktober 2024
+# Area of Hvide Sande (Ringkøbing-Skjern)
+# Housing with Heat Pump
+url = 'https://api.energidataservice.dk/dataset/PrivIndustryConsumptionHour?offset=0&start=2024-10-01T00:00&end=2024-11-01T00:00&filter=%7B%22MunicipalityNo%22:[%22760%22],%22HousingCategory%22:[%22Parcel-%20og%20r%5Cu00E6kkehuse%22],%22HeatingCategory%22:[%22Elvarme%20eller%20varmepumpe%22]%7D&sort=HourUTC%20DESC'
+filename = folderpath + 'Loadprofile_SingleFamHousehold_ElHeating_Energienet_oktober24.csv'
+write_api_swagger_data_to_csv(url, filename)
+
+# Housing with other non-electric Heating
+url = 'https://api.energidataservice.dk/dataset/PrivIndustryConsumptionHour?offset=0&start=2024-10-01T00:00&end=2024-11-01T00:00&filter=%7B%22MunicipalityNo%22:[%22760%22],%22HousingCategory%22:[%22Parcel-%20og%20r%5Cu00E6kkehuse%22],%22HeatingCategory%22:[%22Andet%22]%7D&sort=HourUTC%20DESC'
+filename = folderpath + 'Loadprofile_SingleFamHousehold_nonElHeating_Energienet_oktober24.csv'
+write_api_swagger_data_to_csv(url, filename)
+
+
 
 
 
