@@ -110,10 +110,7 @@ DataFolder = './Datasets/';
 % Save the table as a .mat file
 save(append(DataFolder ,'WeatherData_okt24.mat'), 'WeatherData_table');
 
-% Save the table as a .csv file
-writetable(WeatherData_table, append(DataFolder ,'WeatherData_okt24.csv'));
-
-disp('Files saved as .mat and .csv')
+disp('Files saved as .mat ')
 
 clear DataFolder
 
@@ -121,9 +118,10 @@ end
 
 
 %% Safe Figures
-save_files = true;
 
-if save_files
+save_figures = true;
+
+if save_figures
     % Stretch Figure
     figwidth = 8; % Width in inches
     figheight = 8; % Height in inches

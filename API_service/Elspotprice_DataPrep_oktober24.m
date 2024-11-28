@@ -79,10 +79,27 @@ xlim('tight')
 title('El Spot Price')
 ylabel('DKK/kWh')
 
-%% Safe Figures
-save_files = true ;
+%% Safe processed Loadprofile Files
+
+save_files = true;
 
 if save_files
+
+DataFolder = './Datasets/';
+
+% Save the table as a .mat file
+save(append(DataFolder ,'ElSpotPrice_kWh_okt24.mat'), 'elspotData');
+
+disp('File saved as .mat ')
+
+clear DataFolder
+
+end
+
+%% Safe Figures
+save_figures = true ;
+
+if save_figures
     % Stretch Figure
     figwidth = 8; % Width in inches
     figheight = 8; % Height in inches

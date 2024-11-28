@@ -101,11 +101,28 @@ xlim('tight')
 title('Power Consumption of Housings with El Heating ')
 ylabel('kWh')
 
+%% Safe processed Loadprofile Files
+cd ..
 
-%% Safe Figures
 save_files = true;
 
 if save_files
+
+DataFolder = './Datasets/';
+
+% Save the table as a .mat file
+save(append(DataFolder ,'loadData_okt24.mat'), 'loadData_okt24');
+
+disp('File saved as .mat ')
+
+clear DataFolder
+
+end
+
+%% Safe Figures
+save_figures = true;
+
+if save_figures
     figure(fig_Loadprofile_okt24) % choose as active fig
     % Stretch Figure
     figwidth = 8; % Width in inches
